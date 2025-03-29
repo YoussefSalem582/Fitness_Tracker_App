@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/workout/workout_bloc.dart';
+import '../stats/stats_page.dart';
 import '../workout/add_workout_page.dart';
+import '../workout/workout_details_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,6 +13,20 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // Add this to the AppBar actions
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StatsPage(),
+                ),
+              );
+            },
+          ),
+        ],
         title: const Text('Fitness Tracker'),
       ),
       body: BlocBuilder<WorkoutBloc, WorkoutState>(
@@ -32,8 +48,14 @@ class HomePage extends StatelessWidget {
                   trailing: Text(
                     '${workout.exercises.length} exercises',
                   ),
+                  // Update the onTap in HomePage's ListTile
                   onTap: () {
-                    // TODO: Navigate to workout details
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WorkoutDetailsPage(workout: workout),
+                      ),
+                    );
                   },
                 );
               },
